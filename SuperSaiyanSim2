@@ -23,7 +23,7 @@ local section3 = page:addSection("Settings")
 
 
 
-local mobslist = {
+local mobslist = { --add mobs name if you want,dont forget to add coma at Evil Thug if you want add other's mobs,and remove coma for last mobs
     "Mad Bandit",
     "Bandit",
     "Tigreal Tribe",
@@ -98,7 +98,7 @@ game:GetService("RunService").RenderStepped:Connect(function()
     end
 end)
 
-local mobslist1 = {
+local mobslist1 = { --add boss name if you want,dont forget to add coma at Baby Vegeta if you want add other's Boss,and remove coma for last Boss
     "Black Goku",
     "Cell",
     "Android 18",
