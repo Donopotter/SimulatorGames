@@ -1,0 +1,165 @@
+local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/GreenDeno/Venyx-UI-Library/main/source.lua"))()
+local venyx = library.new("Super Saiyan Simulator 2", 5013109572)
+
+
+local themes = {
+Background = Color3.fromRGB(24, 24, 24),
+Glow = Color3.fromRGB(0, 0, 0),
+Accent = Color3.fromRGB(10, 10, 10),
+LightContrast = Color3.fromRGB(20, 20, 20),
+DarkContrast = Color3.fromRGB(14, 14, 14),  
+TextColor = Color3.fromRGB(255, 255, 255)
+}
+
+
+local page = venyx:addPage("Main", 5012544693)
+local section1 = page:addSection("Farm Mobs")
+local section2 = page:addSection("Farm Boss")
+local section3 = page:addSection("Settings")
+
+
+
+
+
+
+
+local mobslist = {
+    "Mad Bandit",
+    "Bandit",
+    "Tigreal Tribe",
+    "Gorilla Tribe",
+    "Evil Thug"
+}
+
+section1:addDropdown("Select Mobs", mobslist, function(text)
+    getgenv().selectedmob = (text)
+end)
+
+
+function mob()
+    for i,v in pairs(game.Workspace["World Mobs"]["Normal Mobs"]:GetDescendants()) do
+        if v:IsA("Model") and v.Name == getgenv().selectedmob then
+            return v
+        end
+    end
+end
+
+section1:addToggle("Farm Mobs", nil, function(value)
+    getgenv().autofarm = value
+end)
+
+section3:addToggle("Auto Punch", false , function(state)
+    getgenv().togglepunch = (state) 
+
+    while wait() do
+        if getgenv().togglepunch == true then
+            game:GetService("ReplicatedStorage").Remotes.SkillRemote:FireServer("Combat",true,CFrame.new(1802.96167, 584.652771, 1282.3855, -0.892863989, 0.110695891, -0.436509222, -7.4505806e-09, 0.969317377, 0.24581258, 0.450326413, 0.219477206, -0.865468562),CFrame.new(1812.69421, 577.672058, 1301.68225, 0.83775574, 0, 0.546045184, 0, 1, 0, -0.546045184, 0, 0.83775574),CFrame.new(1814.31104, 574.672058, 1305.38416, -0.896772623, 0.160482943, -0.412364036, 1.49011612e-08, 0.931913674, 0.362680137, 0.442491651, 0.325241625, -0.835714698))
+        end
+    end
+end)
+
+section3:addToggle("Auto Rebith", false , function(state)
+    getgenv().togglerebith = (state) 
+
+    while wait() do
+        if getgenv().togglerebith == true then
+            game:GetService("ReplicatedStorage").Aero.AeroRemoteServices.StatsService.RebirthUp:FireServer()
+        end
+    end
+end)
+
+coroutine.wrap(function()
+    while wait() do
+        if getgenv().autofarm == true then
+            local enem = mob()
+            pcall(function()
+                for i,v in pairs(game.Workspace["World Mobs"]["Normal Mobs"]:GetDescendants()) do
+                    if v:IsA("Model") and v.Name == getgenv().selectedmob then
+                        if v.Humanoid.Health > 0 and game.Players.LocalPlayer.Character.Humanoid.Health > 0 then
+                            repeat
+                                wait()
+                                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.HumanoidRootPart.CFrame * CFrame.new(0,getgenv().distance,0) * CFrame.Angles(math.rad(-90),0,0)
+                            until v.Humanoid.Health <= 0 or getgenv().autofarm == false
+                        end
+                    end
+                end
+            end)
+        end
+    end
+end)()
+
+section3:addSlider("Distance", 0, 0, 10, function(value)
+    getgenv().distance = value
+end)
+
+game:GetService("RunService").RenderStepped:Connect(function()
+    if autofarm == true then
+        game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
+    end
+end)
+
+local mobslist1 = {
+    "Black Goku",
+    "Cell",
+    "Android 18",
+    "Jiren",
+    "Frieza",
+    "Android 17",
+    "Broly",
+    "Majin Buu",
+    "Cooler",
+    "Baby Vegeta"
+
+}
+
+section2:addDropdown("Select Boss", mobslist1, function(text)
+    getgenv().selectedmob = (text)
+end)
+
+
+function mob()
+    for i,v in pairs(game.Workspace["World Mobs"]["Boss"]:GetDescendants()) do
+        if v:IsA("Model") and v.Name == getgenv().selectedmob then
+            return v
+        end
+    end
+end
+
+section2:addToggle("Farm Boss", nil, function(value)
+    getgenv().autofarm = value
+end)
+
+coroutine.wrap(function()
+    while wait() do
+        if getgenv().autofarm == true then
+            local enem = mob()
+            pcall(function()
+                for i,v in pairs(game.Workspace["World Mobs"]["Boss"]:GetDescendants()) do
+                    if v:IsA("Model") and v.Name == getgenv().selectedmob then
+                        if v.Humanoid.Health > 0 and game.Players.LocalPlayer.Character.Humanoid.Health > 0 then
+                            repeat
+                                wait()
+                                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.HumanoidRootPart.CFrame * CFrame.new(0,getgenv().distance,0) * CFrame.Angles(math.rad(-90),0,0)
+                            until v.Humanoid.Health <= 0 or getgenv().autofarm == false
+                        end
+                    end
+                end
+            end)
+        end
+    end
+end)()
+
+
+local page2 = venyx:addPage("Misc", 5012544693)
+local section1 = page2:addSection("Toggle Hide GUI")
+local section2 = page2:addSection("Credits")
+
+section1:addKeybind("SelectKeybind", N, function(keycall)
+    if keycall then
+        venyx:toggle()
+    end
+end)
+
+section2:addButton("V3rm : BapakKauSange", function()
+    
+end)
